@@ -8,10 +8,8 @@ const PaginationControls = ( {hasNextPage,hasPrevPage,length}) => {
   const router = useRouter()
   const searchParams = useSearchParams()
   const pathname = usePathname()
-//   console.log(pathname)
-
   const page = searchParams.get('page') ?? '1'
-  const [per_page, setPerPage] = useState( searchParams.get('per_page') ?? '5' )
+  const [per_page, setPerPage] = useState( searchParams.get('per_page') ?? '10' )
 
   useEffect(()=>{
     router.push(`${pathname}/?page=1&per_page=${per_page}`)
@@ -34,7 +32,6 @@ const PaginationControls = ( {hasNextPage,hasPrevPage,length}) => {
 
       <div>
         <select className='inputmini' value={per_page} onChange={(e)=>setPerPage(e.target.value)}>
-            <option>5</option>
             <option>10</option>
             <option>20</option>
             <option>50</option>
