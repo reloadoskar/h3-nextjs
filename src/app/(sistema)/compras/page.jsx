@@ -42,7 +42,7 @@ export default function Compras() {
   },[user, mesAnio])
 
   return (
-    <div className='contenedor'>
+    <div className='contenedor pt-6'>
       <section>
         <MenuCompras />
       </section>

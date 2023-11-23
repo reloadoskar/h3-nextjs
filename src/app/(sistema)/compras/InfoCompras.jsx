@@ -13,7 +13,7 @@ export default function InfoCompras(
   const totalSaldo = totalImporte-totalPagos ||0
   const resultado = totalVenta - totalGasto - totalImporte
   return (
-    <div className='contenedor flex flex-col-6 gap-2 justify-between p-4 border rounded-md bg-gray-700'>
+    <div className='flex flex-col-6 gap-2 justify-between p-4 border rounded-md bg-gray-700'>
       <div className='flex flex-col text-center'>
         <h2 className='text-5xl font-bold'>{numCompras}</h2>
         <span className='text-gray-400'>Operaciones</span>

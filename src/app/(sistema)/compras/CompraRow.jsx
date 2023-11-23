@@ -18,9 +18,9 @@ export default function CompraRow({ compra }) {
             <div className='basis-2/12'>{compra.fecha}</div>
             <div className='basis-3/12'>{compra.productor?.nombre}</div>
             <div className=' text-right basis-1/12'>{numeroFormateado(importeTotal)}</div>
-            <div className=' text-right basis-1/12'>{numeroFormateado(compra.tventas)}</div>
+            <div className=' text-right basis-2/12'>{numeroFormateado(compra.tventas)}</div>
             <div className=' text-right basis-1/12'>{numeroFormateado(compra.tgastos)}</div>
-            <div className={`text-right basis-1/12 ${resultado > 0 ? "text-green-400" : "text-red-400"}`}>{numeroFormateado(resultado)}</div>
+            <div className={`text-right basis-2/12 ${resultado > 0 ? "text-green-400" : "text-red-400"}`}>{numeroFormateado(resultado)}</div>
         </li>
     )
 }
