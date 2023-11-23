@@ -8,18 +8,18 @@ import PdvInventario from './PdvInventario'
 import Loading from '../loading'
 import { usePdv } from './PdvContext'
 import Nota from './Nota'
-import { Settings } from 'lucide-react'
+import { Menu, Settings, X } from 'lucide-react'
 import Configuracion from './Configuracion'
 export default function Punto({ user, ubicacions }) {
   const { ubicacion, fecha, inventario, setInventario, setClientes } = usePdv()
   const [isLoading, setLoading] = useState(false)
+  const [expanded, setExpanded] = useState(false)
 
   useEffect(() => {
     setLoading(true)
     if (user && ubicacion) {
       axios.post('/api/inventario/ubicacion', { database: user.database, ubicacion: ubicacion })
-        .then((res) => {
-          setLoading(false)
+        .then((res) => {          
           setInventario(res.data.inventario)
         })
         .catch(err => console.log(err))
@@ -27,6 +27,7 @@ export default function Punto({ user, ubicacions }) {
       axios.get('/api/cliente/ubicacion/' + ubicacion._id)
         .then(res => {
           return setClientes(res.data.clientes)
+          setLoading(false)
         })
     }
     setLoading(false)
@@ -40,7 +41,15 @@ export default function Punto({ user, ubicacions }) {
     <main className=''>
 
       <section className='flex bg-gray-950 text-gray-400 px-6 border-b border-gray-500'>
-        <div className="basis-1/3">
+        <div className="basis-1/3 flex gap-4 items-center">
+          <button onClick={()=>setExpanded(!expanded)} className='transition-all z-50'>
+            {expanded? <X /> : <Menu />}
+          </button>
+          {/* <input type="checkbox" id="menu" className="peer hidden" />
+          <label htmlFor="menu" className="bg-open-menu w-6 h-4 bg-cover bg-center cursor-pointer peer-checked:bg-close-menu transition-all z-50">
+            
+          </label> */}
+          <Configuracion ubicacions={ubicacions} expanded={expanded} salir={()=>setExpanded(false)}/>
           <span className='text-2xl'>
             {moment(fecha).format("dddd DD MMM YYYY")}
           </span>
@@ -52,13 +61,8 @@ export default function Punto({ user, ubicacions }) {
           <span className='text-2xl text-right'>
             {ubicacion?.nombre}
           </span>
-          
-            <input type="checkbox" id="menu" className="peer hidden" />
-            <label htmlFor="menu" className="bg-open-menu w-6 h-4 bg-cover bg-center cursor-pointer peer-checked:bg-close-menu transition-all z-50">
-              {/* <Settings /> */} 
-            </label>
-            <Configuracion ubicacions={ubicacions} />
-          
+
+
         </div>
       </section>
 
