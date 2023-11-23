@@ -68,7 +68,7 @@ export default function Cobrar({ open, close }) {
                                     </select>
                                 </div>
                             }
-                            <h2 className="text-2xl">${importeTotal}</h2>
+                            <h2 className="text-2xl">${numeroFormateado( importeTotal)}</h2>
                             <div className="flex flex-col px-6">
                                 <label htmlFor="efectivo">Efectivo</label>
                                 <input id="efectivo"
