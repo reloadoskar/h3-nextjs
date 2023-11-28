@@ -60,14 +60,17 @@ export default function NuevaUbicacion() {
                             onChange={handleChange}
                             required
                         />
-                        <input name="tipo"
-                            type="text"
-                            placeholder="SUCURSAL"
+                        <select name="tipo"
+                            placeholder="Tipo"
                             className="inputbasico"
                             value={newUbicacion.tipo}
                             onChange={handleChange}
                             required
-                        />
+                        >
+                            <option>BODEGA</option>
+                            <option>SUCURSAL</option>
+                            <option>ON-LINE</option>
+                        </select>
                         <input name="direccion"
                             type="text"
                             placeholder="AV SIEMPRE VIVA 123"

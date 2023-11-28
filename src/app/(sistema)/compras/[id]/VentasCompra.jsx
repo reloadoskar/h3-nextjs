@@ -156,8 +156,8 @@ export default function VentasCompra({ ventas, ubicacions }) {
         }
     }, [filtros, ventas])
     const entries = ventasFiltradas.slice(start, end)
-    return (
-        <div>
+    return ventas.length > 0 ?
+        <div>          
             <div className="bg-gray-700 px-6">
                 <h2 className="text-center uppercase ">filtros</h2>
                 <div className="flex gap-2 items-center">
@@ -322,5 +322,5 @@ export default function VentasCompra({ ventas, ubicacions }) {
                 hasPrevPage={start > 0}
             />
         </div>
-    )
+    : <h1 className="flex text-2xl font-bold py-5 text-center justify-center">Aún no hay ventas registradas.</h1>
 }

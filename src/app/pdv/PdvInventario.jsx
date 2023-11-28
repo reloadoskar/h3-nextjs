@@ -11,7 +11,7 @@ export default function PdvInventario() {
 
 
     return (
-        <div className='mt-12 px-6'>
+        <div className='w-full mt-12 px-6 flex flex-col'>
             {inventario.length !== 0 ?
                 !item ? 
                     <section className="flex flex-col bg-gray-700 rounded-md px-6 py-2">

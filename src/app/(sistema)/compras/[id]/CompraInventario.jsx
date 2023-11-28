@@ -37,38 +37,37 @@ export default function CompraInventario(props) {
     }, [filtro, terminados, inventario])
     return (
         <article className={`flex flex-col gap-2 py-4 `}>
+
             <div className="flex gap-2">
 
-                <div className="flex-1 mb-5 rounded-sm bg-gray-800">
-                    <div className={`p-2 flex flex-row items-center transition-colors rounded-sm bg-gradient-to-r from-cyan-950 to-cyan-700 `} style={{ width: porcEmpDisp + "%" }} >
-                        <div className="basis-1/2 flex flex-col items-center" >
-                            <span className="text-3xl font-semibold">{empsDisponible}</span>
-                            <p className="text-xs">
-                                Empaques:
-                            </p>
-                        </div>
-                        <div className="flex basis-1/2 flex-col items-center">
-                            <span className="text-3xl font-semibold">{porcEmpDisp.toFixed(1)}%</span>
-                        </div>
+                <div className="basis-1/3 mb-5 rounded-sm bg-gray-800">
+                    <h3 className="text-sm text-center">Empaques</h3>
+                    <div className={`p-2 h-14 flex flex-row items-center justify-center transition-colors rounded-sm bg-gradient-to-r from-cyan-950 to-cyan-700 `} style={{ width: porcEmpDisp + "%" }} >
+
 
                     </div>
+                    <div className="-mt-12 mb-2 flex basis-1/2 flex-col items-center">
+                        <span className="text-3xl text-center font-semibold">{porcEmpDisp.toFixed(1)}%</span>
+                    </div>
+                    
+                    <div className="font-semibold text-center">{empsDisponible} de {empsTtl}</div>
+                    
                     {/* <ProgressBar value={porcEmpDisp} /> */}
                 </div>
 
-                <div className="flex-1 mb-5 rounded-sm bg-gray-800">
-                    <div className={`p-2 flex flex-row items-center transition-colors rounded-sm bg-gradient-to-r from-cyan-950 to-cyan-700 `} style={{ width: porcCntDisp + "%" }} >
-                        <div className="basis-1/2 flex flex-col items-center" >
-                            <span className="text-3xl font-semibold">{numeroFormateado(cantDisponible)}</span>
-                            <p className="text-xs">
-                                Unidades:
-                            </p>
-                        </div>
-                        <div className="flex basis-1/2 flex-col items-center">
-                            <span className="text-3xl font-semibold">{porcCntDisp.toFixed(1)}%</span>
-                        </div>
+                <div className="basis-1/3 mb-5 rounded-sm bg-gray-800">
+                    <h3 className="text-sm text-center">Unidades</h3>
+                    
+                    <div className={`p-2 h-14 flex flex-row items-center justify-center transition-colors rounded-sm bg-gradient-to-r from-cyan-950 to-cyan-700 `} style={{ width: porcCntDisp + "%" }} >
                     </div>
+                    <div className=" -mt-12 mb-2 flex basis-1/2 flex-col items-center">
+                        <span className="text-3xl  text-center font-semibold">{porcCntDisp.toFixed(1)}%</span>
+                    </div>
+                    
+                    <div className="font-semibold text-center">{numeroFormateado(cantDisponible)} de {numeroFormateado(cantTtl)}</div>
+                    
                 </div>
-                <div className="flex-1">emps vacios</div>
+                <div className="basis-1/3">emps vacios</div>
 
             </div>
             <div className="bg-gray-700 p-2 flex gap-6 w-full justify-center items-center">
@@ -85,6 +84,12 @@ export default function CompraInventario(props) {
                 </select>
             </div>
             <div>
+                <div className="bg-gray-800 flex px-2">
+                    <div className="basis-2/4">Sucursal/Producto</div>
+                    <div className="basis-2/4">Clasificación</div>
+                    <div className="basis-1/4 text-right">Empaques</div>
+                    <div className="basis-1/4 text-right">Unidades</div>
+                </div>
                 {ubicacions.sort((a, b) => a.nombre < b.nombre ? -1 : 1).map(ub => {
                     let invub = inventarioFiltrado[ub._id] || null
                     if (invub) {

@@ -9,6 +9,7 @@ import Venta from "@/models/venta"
 import Cliente from "@/models/cliente"
 import Pago from "@/models/pago"
 import Gasto from "@/models/gasto"
+import Movimiento from "@/models/movimiento"
 
 export async function loadCompras(user, mesAnio) {
     try {
@@ -49,6 +50,17 @@ export async function loadCompra(id){
             .populate({path:'gastos', populate: 'ubicacion'})
             .populate({path:'pagos', populate: 'ubicacion'})
             .lean()
+
+            let items = compra.items
+
+            compra.items = await Promise.all(items.map(async (itm) => {
+                // Asignar el resultado de la búsqueda a itm.movimientos
+                let moves = await Movimiento.find({ "item._id": itm._id.toString() })
+                    .populate("origen destino").lean()
+                itm.movimientos = moves
+                return itm
+            }))
+            
         return JSON.stringify(compra)
     } catch (error) {
         return console.log(error)
@@ -75,7 +87,7 @@ export async function loadProductors() {
 }
 export async function loadUbicacions(user) {
     try {
-        await adminConnection(user)
+        // await adminConnection(user)
         let ubicacion = await Ubicacion.find().lean()
         return JSON.stringify(ubicacion)
     } catch (error) {
@@ -87,6 +99,17 @@ export async function loadProductos() {
         let productos = await Producto.find().lean()
         return JSON.stringify(productos)
     } catch (error) {
+        return error
+    }
+}
+
+export async function loadInventario(){
+    try{
+        let inventario = await CompraItem.find({cantidad:{$gt:0}})
+            .populate('compra ubicacion producto')
+            .lean()
+        return JSON.stringify(inventario)
+    } catch (error){
         return error
     }
 }

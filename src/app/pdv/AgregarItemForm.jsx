@@ -33,7 +33,8 @@ export default function AgregarItemForm() {
                         autoFocus
                         required
                         type="number"
-                        min={1}
+                        step="any"
+                        // min={1}
                         max={item.empaquesStock}
                         value={itemEmps}
                         onChange={(e) => setItemEmps(e.target.value)}
@@ -55,10 +56,10 @@ export default function AgregarItemForm() {
                 <div className="basis-1/4">
                     <label htmlFor="precio">Precio</label>
                     <input name="precio" id="precio"
-                        className="inputbasico my-0 mb-2"
                         type="number"
-                        required
-                        
+                        step="any"
+                        className="inputbasico my-0 mb-2"
+                        required                        
                         value={itemPrec}
                         onChange={(e) => setItemPrec(e.target.value)}
                     />

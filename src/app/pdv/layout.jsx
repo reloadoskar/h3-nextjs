@@ -5,11 +5,7 @@ export default function layout({ children }) {
     return (
         <PdvContextProvider>
             <VentasContextProvider>
-                <main
-                // className="flex flex-row"
-                >
-                    {children}
-                </main>
+                {children}
             </VentasContextProvider>
         </PdvContextProvider>
     )
