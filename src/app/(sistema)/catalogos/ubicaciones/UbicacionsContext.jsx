@@ -8,20 +8,27 @@ export const useUbicacions = () => {
     return useContext(UbicacionsContext)
 }
 export const UbicacionsContextProvider = (props) => {
-    const [ubicacions, setUbicacions] = useState([])
+    const [ubicacions, setUbicacions] = useState([]) //MODIFICAERRRRRRRR
     const [ubicacion, setUbicacion] = useState(null)
-    const loadUbicacions = useCallback(async (database) => { 
-        if(database){
-            const response = await axios.post("/api/ubicacion/s",{database})
-            
-            return response; 
+
+    const loadUbicacions = useCallback(async (database) => {
+        if (database) {
+            const response = await axios.post("/api/ubicacion/s", { database })
+            setUbicacions(response.data.ubicacions)
+            return response;
         }
     }, [])
-    return(
+
+    const updateUbicacion = async (database, ub) =>{
+        const res = await axios.put("/api/ubicacion/update",{database, ub})
+        return res
+    }
+
+    return (
         <UbicacionsContext.Provider value={{
             ubicacion, setUbicacion,
-            ubicacions, setUbicacions, 
-            loadUbicacions
+            ubicacions, setUbicacions,
+            loadUbicacions, updateUbicacion
         }}>
             {props.children}
         </UbicacionsContext.Provider>
