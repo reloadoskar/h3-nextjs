@@ -6,14 +6,14 @@ import { useEffect, useRef } from "react"
 
 export default function Configuracion({ ubicacions, expanded, salir }) {
     const ref = useRef(null)
-    const { ubicacion, fecha, setUbicacion, setFecha } = usePdv()
+    const { ubicacion, fecha, setUbicacion, setFecha, minEmps, minStock, setMinEmps, setMinStock } = usePdv()
     const handleChange = (e) => {
         setUbicacion(ubicacions[e.target.value])
     }
 
-    useEffect(()=>{
-        const handleOutsideClick = (e) =>{
-            if(!ref.current?.contains(e.target)){
+    useEffect(() => {
+        const handleOutsideClick = (e) => {
+            if (!ref.current?.contains(e.target)) {
                 salir()
             }
         }
@@ -22,11 +22,11 @@ export default function Configuracion({ ubicacions, expanded, salir }) {
         return () => {
             window.removeEventListener("mousedown", handleOutsideClick)
         }
-    },[ref])
+    }, [ref])
     return (
         <div className={`fixed inset-0 bg-gradient-to-b items-end w-1/4
-            from-black/90 to-black/40 
-            -translate-x-full ${expanded?"translate-x-0" :""}
+            from-black/90 to-black/80 
+            -translate-x-full ${expanded ? "translate-x-0" : ""}
             transition-transform duration-500 ease-in-out`} ref={ref}>
             <div className="w-2/3 mx-auto py-20">
                 <h1 className="text-2xl font-bold text-center">Configuración</h1>
@@ -44,6 +44,15 @@ export default function Configuracion({ ubicacions, expanded, salir }) {
                     <label>Fecha</label>
                     <input className="inputbasico mt-0" name="fecha" type="date" value={fecha} onChange={(e) => setFecha(e.target.value)} />
                 </div>
+                <div>
+                    <label>Empaques mínimo</label>
+                    <input className="inputbasico w-[50%] " name="minemps" type="number" value={minEmps} onChange={(e) => setMinEmps(e.target.value)} />
+                </div>
+                <div>
+                    <label>Unidades mínimo</label>
+                    <input className="inputbasico w-[50%]" name="minstock" type="number" value={minStock} onChange={(e) => setMinStock(e.target.value)} />
+                </div>
+                
                 <div>
                     <Switch />
                 </div>

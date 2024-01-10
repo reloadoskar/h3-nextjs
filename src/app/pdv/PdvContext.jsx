@@ -13,6 +13,8 @@ export const PdvContextProvider = (props) => {
     const [ubicacion, setUbicacion] = useState(null)
     const [clientes, setClientes] = useState([])
     const [inventario, setInventario] = useState([])
+    const [minEmps, setMinEmps] = useState(0)
+    const [minStock, setMinStock] = useState(1)
 
     return(
         <PdvContext.Provider value={{ 
@@ -20,8 +22,9 @@ export const PdvContextProvider = (props) => {
             fecha, setFecha,
             ubicacion, setUbicacion,
             inventario, setInventario,
-            clientes, setClientes
-
+            clientes, setClientes,
+            minEmps, setMinEmps,
+            minStock, setMinStock
         }}>
             {props.children}
         </PdvContext.Provider>

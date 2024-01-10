@@ -49,7 +49,7 @@ export const VentasContextProvider = (props) => {
 
     useEffect(() => {
 
-        setItemImpo(itemCant * itemPrec)
+        setItemImpo((itemCant * itemPrec).toFixed(2))
 
     }, [itemEmps, itemCant, itemPrec])
 
@@ -76,6 +76,11 @@ export const VentasContextProvider = (props) => {
         }
     }
 
+    useEffect(()=>{
+        if(cliente){
+            console.log(cliente)
+        }
+    },[cliente])
     return (
         <VentasContext.Provider
             value={{
