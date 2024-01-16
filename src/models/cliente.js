@@ -2,7 +2,7 @@ import mongoose, { Schema, model } from "mongoose";
 
 var ClienteSchema = Schema({
     nombre: {type: String, unique: true},
-    clave: String,
+    clave: {type: String, uppercase: true},
     sexo: String,
     rfc: {type: String},
     direccion: String,
@@ -14,7 +14,7 @@ var ClienteSchema = Schema({
     credito_disponible: Number,
     cuentas: [{type: Schema.ObjectId, ref: 'Ingreso' }],
     pagos: [{type: Schema.ObjectId, ref: 'Ingreso' }],
-    ubicacion: [{type: Schema.ObjectId, ref: 'Ubicacion'}],
+    ubicacion: {type: Schema.ObjectId, ref: 'Ubicacion'},
 },{
     timestamps: true
 });
