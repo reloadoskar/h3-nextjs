@@ -11,7 +11,7 @@ export async function POST(request){
     try {
         await adminConnection(data.database)
         let ubicacions = await Ubicacion.find({})
-        return NextResponse.json(ubicacions,{status:200})
+        return NextResponse.json({message: "Ubicaciones cargadas.", ubicacions:ubicacions},{status:200})
     } catch (error) {
         return NextResponse.json({message:"No se obtubieron ubicaciones"},{status:400})
     }
