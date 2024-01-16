@@ -1,29 +1,43 @@
-
-import { adminConnection } from "@/utils/adminConnection";
-import Cliente from "@/models/cliente";
-import ClienteRow from "./ClienteRow";
-import Link from "next/link";
+'use client'
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import { useClientes } from "./ClientesContext";
+import { useSession } from "next-auth/react";
+import ClienteCreate from "./ClienteCreate";
+import ClienteEditable from "./ClienteEditable";
+import { useUbicacions } from "../ubicaciones/UbicacionsContext";
+import ClientesList from "./ClientesList";
 
-export async function loadClientes(userDb) {
-  try {
-    await adminConnection(userDb);
-    const clientes = await Cliente.find();
-    return clientes;
-  } catch (error) {
-    return error
-  }
-}
+export default function Clientes() {
+  const { data: session, status } = useSession()
+  const [database, setDb] = useState(null)
+  const { clientes, cliente, loadClientes, verCliente } = useClientes()
+  const { loadUbicacions } = useUbicacions()
+  const [dialogCrear, setDialogCrear] = useState(false)
 
-export default async function Clientes() {
+  useEffect(() => {
+    if (status === 'authenticated') {
+      return setDb(session.user.database)
+    }
+    return setDb(null)
+  }, [session, status])
 
-  const clientes = await loadClientes().catch(err=>{
-    toast(err.message)
-  })
+  useEffect(() => {
+    if (database) {
+      loadClientes(database)
+        .catch(err => {
+          toast(err.data.message)
+        })
+      loadUbicacions(database).catch(err => toast.error("ocurrió un error"))
+    }
+  }, [database, loadClientes, loadUbicacions])
+
+
+
   return (
-    <div className="contenedor">
-      <header className="flex justify-between p-4 mt-5 items-center gap-2">
-      <div className="basis-1/6">
+    <div className="contenedor mx-4 w-full">
+      <header className="flex flex-col md:flex-row justify-between p-4 mt-5 items-center gap-2">
+        <div className="basis-1/6">
           <span>
             <h2 className="titulo">
               {clientes.length}
@@ -31,13 +45,19 @@ export default async function Clientes() {
           </span>
           <p className="text-center">Clientes</p>
         </div>
-        <input className="inputbasico basis-1/3" name="busqueda" type="text" placeholder="buscar..."/>
-        <Link className="boton basis-1/3" href="/catalogos/clientes/new" >+Crear Cliente</Link>
+        <input className="inputbasico basis-1/3" name="busqueda" type="text" placeholder="buscar..." />
+        <button className="boton basis-1/3" onClick={() => setDialogCrear(true)} >+Crear Cliente</button>
+        <ClienteCreate open={dialogCrear} close={() => setDialogCrear(false)} db={database} />
       </header>
 
-      {clientes.length <= 0 ? <h2 className="grid p-4 text-bold text-xl mx-auto">No se encontraron clientes</h2>: clientes.map(cliente=>(
-        <ClienteRow cliente={cliente} key={cliente._id} />
-      ))}
+      {clientes.length <= 0 ? 
+        <h2 className="text-bold text-xl text-center">No se encontraron clientes</h2> 
+        : 
+
+        <ClientesList clientes={clientes} />  
+      }
+
+      <ClienteEditable cliente={cliente} open={verCliente} database={database} />
     </div>
   )
 }
