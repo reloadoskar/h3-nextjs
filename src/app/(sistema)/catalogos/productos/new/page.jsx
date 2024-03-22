@@ -5,7 +5,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { toast } from 'sonner';
 export default function NuevoProducto() {
-    const { data: session, status } = useSession();
+    const { data: session, } = useSession();
     const router = useRouter();
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [newProducto, setNewProducto] = useState({
@@ -20,10 +20,10 @@ export default function NuevoProducto() {
         }
     }, [session])
     const handleChange = (e) => {
-        if(e.target.name==="descripcion" || e.target.name==="clave" ){
+        if (e.target.name === "descripcion" || e.target.name === "clave") {
             let uppercased = e.target.value.toUpperCase()
             return setNewProducto({ ...newProducto, [e.target.name]: uppercased });
-        }else{}
+        }
         setNewProducto({ ...newProducto, [e.target.name]: e.target.value });
     }
     const handleSubmit = async (e) => {
@@ -46,14 +46,14 @@ export default function NuevoProducto() {
     }
     return (
         <section className="sectionbasic">
-            <form onSubmit={handleSubmit} className="form">
-            <h1 className="titulo">+Nuevo Producto</h1>
+            <form onSubmit={handleSubmit} className="form mt-12">
+                <h1 className="titulo">+Nuevo Producto</h1>
                 {isSubmitting ? <h2 className="text-bold text-2xl text-center">Enviando...</h2> :
                     <>
                         <input
                             name="descripcion"
                             type="text"
-                            placeholder="JITOMATE SALADETTE XL"
+                            placeholder="Descripción del producto"
                             className="inputbasico"
                             value={newProducto.descripcion}
                             onChange={handleChange}
@@ -61,15 +61,16 @@ export default function NuevoProducto() {
                         />
                         <input name="clave"
                             type="text"
-                            placeholder="SLD-XL"
+                            placeholder="Clave"
                             className="inputbasico"
                             value={newProducto.clave}
+                            maxLength={6}
                             onChange={handleChange}
                             required
                         />
                         <input name="costo"
                             type="number"
-                            placeholder="100"
+                            placeholder="Costo"
                             className="inputbasico"
                             value={newProducto.costo}
                             onChange={handleChange}
@@ -77,15 +78,13 @@ export default function NuevoProducto() {
                         />
                         <input name="precio1"
                             type="number"
-                            placeholder="150"
+                            placeholder="Precio al público"
                             className="inputbasico"
                             value={newProducto.precio1}
                             onChange={handleChange}
                             required
                         />
-
                         <button className="botonform" >Guardar</button>
-
                     </>
                 }
             </form>
