@@ -3,14 +3,14 @@ import UserRow from "@/components/users/userRow"
 
 
 async function loadUsers(){
-  // let users = []
+  let users = []
   // const conn = await adminConnection()
   // // console.log(conn)
   // const users = await conn.model('User').find()
   // // console.log(conn)
   // // const usersByDb = Object.groupBy(users, ({database})=>database)
   // // console.log(usersByDb)
-  // return users
+  return users
 }
 
 export default async function Home() {
