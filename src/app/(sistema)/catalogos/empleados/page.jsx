@@ -1,28 +1,29 @@
-
-import { adminConnection } from "@/utils/adminConnection";
-import User from "@/models/user";
+'use client'
+import { useEffect, useState } from "react";
 import EmpleadoRow from "./EmpleadoRow";
 import Link from "next/link";
 import { toast } from "sonner";
+import { useSession } from "next-auth/react";
+import { useEmpleados } from "./EmpleadosContext";
 
-export async function loadEmpleados(userDb) {
-  try {
-    await adminConnection(userDb);
-    const empleados = await User.find();
-    return empleados;
-  } catch (error) {
-    return error
-  }
-}
-
-export default async function Empleados() {
-
-  const empleados = await loadEmpleados().catch(err=>{
-    toast(err.message)
-  })
+export default function Empleados() {
+  const { data: session, status } = useSession()
+  const [database, setDb] = useState(null)
+  const {empleados, loadEmpleados} = useEmpleados()
+  useEffect(() => {
+    if (status === 'authenticated') {
+      return setDb(session.user.database)
+    }
+    return setDb(null)
+  }, [session, status])
+  useEffect(()=>{
+    if(database){
+      loadEmpleados(database)
+    }
+  },[database, loadEmpleados])
   return (
-    <div className="contenedor">
-      <header className="flex justify-between p-4 mt-5 items-center gap-2">
+    <div className="mx-6">
+      <header className="flex flex-col md:flex-row justify-between p-4 mt-5 items-center gap-2">
       <div className="basis-1/6">
           <span>
             <h2 className="titulo">
