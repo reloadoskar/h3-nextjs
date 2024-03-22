@@ -1,12 +1,12 @@
 import {NextResponse} from "next/server"
-import { connectDb } from "@/utils/mongoose"
+import { dbConnect } from "@/utils/mongoose"
 import UserSchema from "@/schemas/user"
 // import User from '@/models/user'
 
 
 export async function GET(request, {params}){
     try {
-        const conn = await connectDb()
+        const conn = await dbConnect()
         // const userFound = await conn.model('User', UserSchema).findById(params.id)
         // if(!userFound){
         //     return NextResponse.json({

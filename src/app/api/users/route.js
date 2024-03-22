@@ -1,5 +1,5 @@
 import {NextResponse} from "next/server"
-import { adminConnection } from "@/utils/adminConnection"
+import { dbConnect } from "@/utils/mongoose"
 import User from '@/models/user'
 export async function GET(){
     const data = await request.json()
@@ -7,7 +7,7 @@ export async function GET(){
         return NextResponse.json({message:"Datos incompletos"}, {status:400})
     }
     try {
-        await adminConnection(data.database)
+        await dbConnect(data.database)
         let usuarios = await User.find({})
         return NextResponse.json({message:"Usuarios encontrados",usuarios: usuarios}, {status:200})
     } catch (error) {
@@ -21,7 +21,7 @@ export async function POST(request){
         return NextResponse.json({message:"Datos incompletos"}, {status:400})
     }
     try {
-        await adminConnection(data.database)
+        await dbConnect(data.database)
         let usuarioExiste = await User.findOne({ email: data.email })
         // console.log(productorExiste)
         if(usuarioExiste) return NextResponse.json({message:"Usuario existente"}, {status:400})
