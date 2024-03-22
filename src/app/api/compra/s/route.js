@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { adminConnection } from '@/utils/adminConnection'
+import { dbConnect } from "@/utils/mongoose"
 import Compra from '@/models/compra'
 import CompraItem from '@/models/compraitem'
 import Productor from '@/models/productor'
@@ -16,7 +16,7 @@ export async function POST(request){
     }
     // console.log(data)
     try {
-        await adminConnection(data.database)
+        await dbConnect(data.database)
         let compras = await Compra.find({fecha: { $gt: data.mesanio + "-00", $lt: data.mesanio + "-32" }})
             .populate('productor items ventaItems gastos pagos')
             .populate({path:'items', populate: 'producto ubicacion'})

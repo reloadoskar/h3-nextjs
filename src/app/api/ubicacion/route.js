@@ -1,5 +1,6 @@
 import {NextResponse} from "next/server"
-import { adminConnection } from "@/utils/adminConnection"
+// import { adminConnection } from "@/utils/adminConnection"
+import { dbConnect } from "@/utils/mongoose"
 import Ubicacion from "@/models/ubicacion"
 
 export async function GET(request){
@@ -14,7 +15,7 @@ export async function POST(request){
         return NextResponse.json({message:"Datos incompletos"}, {status:400})
     }
     try {
-        await adminConnection(data.database)
+        await dbConnect(data.database)
         let ubicacionExiste = await Ubicacion.findOne({ nombre: data.nombre })
         // console.log(productorExiste)
         if(ubicacionExiste) return NextResponse.json({message:"Ubicación existente"}, {status:400})

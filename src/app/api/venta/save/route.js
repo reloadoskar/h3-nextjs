@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server"
-import { adminConnection } from "@/utils/adminConnection"
+import { dbConnect } from "@/utils/mongoose"
 import Venta from "@/models/venta"
 import VentaItem from '@/models/ventaitem'
 import Cliente from '@/models/cliente'
@@ -15,10 +15,10 @@ export async function POST(request) {
         return NextResponse.json({ message: "Datos incompletos" }, { status: 400 })
     }
     try {
-        await adminConnection(data.database)
+        await dbConnect(data.database)
 
 
-        let cliente = await Cliente.findById(data.cliente)
+        let cliente = await Cliente.find({clave:"PG"})
         if (!cliente) {
             throw new Error("No se encontro al cliente")
         }

@@ -1,13 +1,16 @@
 import { NextResponse } from "next/server"
-import { adminConnection } from "@/utils/adminConnection"
+// import { adminConnection } from "@/utils/adminConnection"
+import { dbConnect } from "@/utils/mongoose"
 import Cliente from "@/models/cliente"
+// import ClienteSchema from "@/schemas/cliente"
 export async function POST(request){
     const data = await request.json()
     if(!data.database){
         return NextResponse.json({message:"Datos incompletos"}, {status:400})
     }
     try {
-        await adminConnection(data.database)
+        await dbConnect(data.database)
+        // let Cliente = con.model('Cliente', ClienteSchema)
         let clientes = await Cliente.find().populate('ubicacion').lean()
         if(!clientes) return NextResponse.json({message:"No se encontraron clientes"}, {status:401})
         return NextResponse.json({message:"Se encontraron clientes",clientes: clientes}, {status:200})

@@ -1,5 +1,6 @@
 import {NextResponse} from "next/server"
-import { adminConnection } from "@/utils/adminConnection"
+// import { adminConnection } from "@/utils/adminConnection"
+import { dbConnect } from "@/utils/mongoose"
 import Producto from "@/models/producto"
 
 export async function GET(request){
@@ -8,7 +9,7 @@ export async function GET(request){
         return NextResponse.json({message:"Datos incompletos"}, {status:400})
     }
     try {
-        await adminConnection(data.database)
+        await dbConnect(data.database)
         let productos = await Producto.find({})
         return NextResponse.json({message:"Productos encontrados",productos: productos}, {status:200})
     } catch (error) {
@@ -22,7 +23,7 @@ export async function POST(request){
         return NextResponse.json({message:"Datos incompletos"}, {status:400})
     }
     try {
-        await adminConnection(data.database)
+        await dbConnect(data.database)
         let productoExiste = await Producto.findOne({ descripcion: data.descripcion })
         // console.log(productorExiste)
         if(productoExiste) return NextResponse.json({message:"Producto existente"}, {status:400})

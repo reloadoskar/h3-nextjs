@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server"
-import { adminConnection } from "@/utils/adminConnection"
+import { dbConnect } from "@/utils/mongoose"
 import CompraItem from "@/models/compraitem"
 import Producto from "@/models/producto"
 import Compra from "@/models/compra"
@@ -13,7 +13,7 @@ export async function POST(request) {
         return NextResponse.json({ message: "Datos incompletos" }, { status: 400 })
     }
     try {
-        await adminConnection(data.database)
+        await dbConnect(data.database)
         let inventario = await CompraItem.find({ stock: { $gt: 0 } })
             // .populate('producto ubicacion compra')
             .populate({ path: 'producto' })

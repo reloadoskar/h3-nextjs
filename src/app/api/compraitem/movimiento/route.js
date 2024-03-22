@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server"
-import { adminConnection } from "@/utils/adminConnection"
+import { dbConnect } from "@/utils/mongoose"
 import CompraItem from "@/models/compraitem"
 import Compra from "@/models/compra"
 import Movimiento from "@/models/movimiento"
@@ -11,7 +11,7 @@ export async function GET(request) {
         return NextResponse.json({ message: "Datos incompletos" }, { status: 400 })
     }
     try {
-        await adminConnection(data.database)
+        await dbConnect(data.database)
         let movimientos = await Movimiento.find({})
         return NextResponse.json(movimientos)
     } catch (error) {
@@ -26,7 +26,7 @@ export async function POST(request) {
     }
     // console.log(data)
     try {
-        await adminConnection(data.database)
+        await dbConnect(data.database)
         let numeroMovimientos = await Movimiento.countDocuments() || 0
         let nMovimiento = data
             nMovimiento.folio = numeroMovimientos + 1

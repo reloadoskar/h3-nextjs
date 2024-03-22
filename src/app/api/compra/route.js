@@ -1,5 +1,6 @@
 import {NextResponse} from "next/server"
-import { adminConnection } from "@/utils/adminConnection"
+// import { adminConnection } from "@/utils/adminConnection"
+import { dbConnect } from "@/utils/mongoose"
 import Compra from "@/models/compra"
 import Productor from "@/models/productor"
 
@@ -9,7 +10,7 @@ export async function GET(request){
         return NextResponse.json({message:"Datos incompletos"}, {status:400})
     }
     try {
-        await adminConnection(data.database)
+        await dbConnect(data.database)
         let compras = await Compra.find({})
         return NextResponse.json(compras)
     } catch (error) {
@@ -24,7 +25,7 @@ export async function POST(request){
     }
     // console.log(data)
     try {
-        await adminConnection(data.database)
+        await dbConnect(data.database)
         let numerocompras = await Compra.estimatedDocumentCount()
         let nuevacompra = {
             folio: numerocompras + 1,

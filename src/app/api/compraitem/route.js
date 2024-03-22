@@ -1,5 +1,5 @@
 import {NextResponse} from "next/server"
-import { adminConnection } from "@/utils/adminConnection"
+import { dbConnect } from "@/utils/mongoose"
 import CompraItem from "@/models/compraitem"
 import Compra from "@/models/compra"
 // import Productor from "@/models/productor"
@@ -10,7 +10,7 @@ export async function GET(request){
         return NextResponse.json({message:"Datos incompletos"}, {status:400})
     }
     try {
-        await adminConnection(data.database)
+        await dbConnect(data.database)
         let compraitems = await CompraItem.find({})
         return NextResponse.json(compraitems)
     } catch (error) {
@@ -25,7 +25,7 @@ export async function POST(request){
     }
     // console.log(data)
     try {
-        await adminConnection(data.database)
+        await dbConnect(data.database)
         let nItem = data
             nItem.stock= data.cantidad
             nItem.empaquesStock = data.empaques
@@ -53,7 +53,7 @@ export async function PUT(request){
         return NextResponse.json({message:"Datos incompletos"}, {status:400})
     }
     try {
-        await adminConnection(data.database)
+        await dbConnect(data.database)
         let itemUpdated = await CompraItem.findOneAndUpdate({_id: data._id}, data, { new: true } )
         if(!itemUpdated){
             return NextResponse.json({message:"No se pudo actualizar"}, {status:400})
@@ -70,7 +70,7 @@ export async function DELETE(request){
         return NextResponse.json({message:"Datos incompletos"}, {status:400})
     }
     try {
-        await adminConnection(data.database)
+        await dbConnect(data.database)
         let itemDeleted = await CompraItem.findByIdAndDelete(data._id)
         return NextResponse.json(itemDeleted)
     } catch (error) {

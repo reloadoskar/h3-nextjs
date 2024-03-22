@@ -1,8 +1,7 @@
 import {NextResponse} from "next/server"
 // import { adminConnection } from "@/utils/adminConnection"
 import { dbConnect } from "@/utils/mongoose"
-import Ubicacion from "@/models/ubicacion"
-// import UbicacionSchema from "@/schemas/ubicacion"
+import Producto from "@/models/producto"
 
 export async function POST(request){
     const data = await request.json()
@@ -12,10 +11,9 @@ export async function POST(request){
     }
     try {
         await dbConnect(data.database)
-        // let Ubicacion = con.model('Ubicacion', UbicacionSchema)
-        let ubicacions = await Ubicacion.find({})
-        return NextResponse.json({message: "Ubicaciones cargadas.", ubicacions:ubicacions},{status:200})
+        let productos = await Producto.find({})
+        return NextResponse.json({message: "Productos cargados.", productos:productos},{status:200})
     } catch (error) {
-        return NextResponse.json({message:"No se obtubieron ubicaciones"},{status:400})
+        return NextResponse.json({message:"No se obtubieron productos: "+error},{status:400})
     }
 }
