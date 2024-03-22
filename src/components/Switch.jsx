@@ -1,7 +1,7 @@
 
 export default function Switch({value, action}) {
     return (
-        <label for="switch" className="inline-flex items-center space-x-4 cursor-pointer dark:text-gray-100">
+        <label htmlFor="switch" className="inline-flex items-center space-x-4 cursor-pointer dark:text-gray-100">
             {/* <span>Left</span> */}
             <span className="relative">
                 <input id="switch" type="checkbox" className="hidden peer" checked={value} onChange={action}/>
