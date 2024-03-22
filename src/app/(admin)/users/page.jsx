@@ -24,9 +24,9 @@ export default async function Home() {
         <div>Base de datos</div>
         <div>Fecha de creación</div>
       </div>
-      {users.map(user=>(
+      {users.length > 0 ? users.map(user=>(
         <UserRow user={user} key={user._id}/>
-      ))}
+      )) : null }
     </div>
   )
 }
