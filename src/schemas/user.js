@@ -10,12 +10,13 @@ var UserSchema = Schema({
     apellido2: {type: String, trim: true},
     telefono: {type: String, required: [true, 'El telefono es requerido.'], unique: true, trim: true},
     email: { type: String, required: [true, 'El correo es requerido'], unique: true },
-    password: { type: String, required: [true, 'El password es requerido'], select: false },
+    password: { type: String, select: false },
     database: String,
     level: Number,
     fechaInicio: String,
     tryPeriodEnds: String,
     paidPeriodEnds: String,
+    sueldo: {type: Number}
 },{
     timestamps: true
 });
