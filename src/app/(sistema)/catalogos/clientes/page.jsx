@@ -11,7 +11,7 @@ import ClientesList from "./ClientesList";
 export default function Clientes() {
   const { data: session, status } = useSession()
   const [database, setDb] = useState(null)
-  const { clientes, cliente, loadClientes, verCliente } = useClientes()
+  const { busqueda , cliente, loadClientes, verCliente, buscarCliente } = useClientes()
   const { loadUbicacions } = useUbicacions()
   const [dialogCrear, setDialogCrear] = useState(false)
 
@@ -35,26 +35,28 @@ export default function Clientes() {
 
 
   return (
-    <div className="contenedor mx-4 w-full">
+    // <div className="mx-2 px-4 md:mx-4 w-full">
+    <div className="mx-6">
+
       <header className="flex flex-col md:flex-row justify-between p-4 mt-5 items-center gap-2">
         <div className="basis-1/6">
           <span>
             <h2 className="titulo">
-              {clientes.length}
+              {busqueda.length}
             </h2>
           </span>
           <p className="text-center">Clientes</p>
         </div>
-        <input className="inputbasico basis-1/3" name="busqueda" type="text" placeholder="buscar..." />
-        <button className="boton basis-1/3" onClick={() => setDialogCrear(true)} >+Crear Cliente</button>
+        <input className="inputbasico basis-1/3" name="busqueda" type="text" placeholder="buscar..." onChange={(e)=>buscarCliente(e.target.value.toUpperCase())}/>
+        <button className="botonborde w-full basis-1/3" onClick={() => setDialogCrear(true)} >Crear Cliente</button>
         <ClienteCreate open={dialogCrear} close={() => setDialogCrear(false)} db={database} />
       </header>
 
-      {clientes.length <= 0 ? 
+      {busqueda.length <= 0 ? 
         <h2 className="text-bold text-xl text-center">No se encontraron clientes</h2> 
         : 
 
-        <ClientesList clientes={clientes} />  
+        <ClientesList clientes={busqueda} />  
       }
 
       <ClienteEditable cliente={cliente} open={verCliente} database={database} />

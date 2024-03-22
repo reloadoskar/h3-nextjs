@@ -4,7 +4,7 @@ import { useUbicacions } from '../ubicaciones/UbicacionsContext'
 import { toast } from 'sonner'
 
 export default function ClienteEditable({ open, database }) {
-    const { cliente, setVerCliente, setCliente, updateCliente } = useClientes()
+    const { cliente, clientes, setVerCliente, setCliente, updateCliente } = useClientes()
     const { ubicacions } = useUbicacions()
     const handleClose = () => {
         setVerCliente(false)
@@ -17,22 +17,31 @@ export default function ClienteEditable({ open, database }) {
     const handleSubmit = (e) => {
         e.preventDefault()
         updateCliente(database, cliente).then(res=>{
+            let clnt = clientes.filter(cl=>cl._id === cliente._id)
+            let chnge = clnt[0]
+                chnge = res.data
+                // console.log(chnge)    
             toast.success("Actualizado correctamente")
             handleClose()
-        }).catch(()=>{
-            toast.error("Algo salió mal")
+        }).catch((err)=>{
+            toast.error("Algo salió mal: "+ err)
         })
     }
     return !cliente ? null :
         <ModalDialog open={open} close={handleClose}>
-            <form className='form mx-2 md:mx-24 w-full' onSubmit={handleSubmit}>
+            <form className='form flex flex-col gap-2 max-h-[90%] overflow-y-auto' onSubmit={handleSubmit}>
+                <h2 className='titulo border-b '>Editar cliente</h2>
                 <div className='flex flex-col gap-2'>
                     <label className='text-sm font-bold'>Nombre</label>
                     <input name="nombre" className='inputbasico mt-0' value={cliente.nombre} onChange={handleChange} />
                 </div>
                 <div className='flex flex-col gap-2'>
+                    <label className='text-sm font-bold'>Referencia</label>
+                    <input name="ref" className='inputbasico mt-0' value={cliente.ref} onChange={handleChange} />
+                </div>
+                <div className='flex flex-col gap-2'>
                     <label className='text-sm font-bold'>Teléfono</label>
-                    <input name="telefono" className='inputbasico mt-0' value={cliente.tel1} onChange={handleChange} />
+                    <input name="tel1" type="tel" className='inputbasico mt-0' value={cliente.tel1} onChange={handleChange} />
                 </div>
                 <div className='flex flex-col gap-2'>
                     <label className='text-sm font-bold'>email</label>
