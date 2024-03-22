@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
 
-const { MONGODB_URI_LOCAL } = process.env;
+const { MONGODB_URI } = process.env;
 
-if (!MONGODB_URI_LOCAL) throw new Error("MONGO_URL is not defined.");
+if (!MONGODB_URI) throw new Error("MONGO_URL is not defined.");
 
 let cached = global.mongoose;
 
@@ -17,7 +17,7 @@ export const dbConnect = async (dbName = null) => {
         return cached.conn;
     } 
     console.log("Nueva conexión 🆕")
-    cached.conn = await mongoose.connect(MONGODB_URI_LOCAL + dbName);
+    cached.conn = await mongoose.connect(MONGODB_URI + dbName);
     console.log("Conexiones: ["+mongoose.connections.length+"]")
 
     return cached.conn;
